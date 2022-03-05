@@ -67,6 +67,18 @@ public class Collect {
     public void mapHobbiesToStudents() {
         log.info("Map hobbies to students");
         // use Map.entry(a,b) to create a pair
+        Map<Hobbies, List<Student>> map = students.stream()
+                .flatMap(s -> s.getHobbiesList().stream().map(h -> Map.entry(h, s)))
+                .collect(Collectors.toMap(entry -> entry.getKey(),
+                        x -> {
+                            List<Student> list = new ArrayList<>();
+                            list.add(x.getValue());
+                            return list;
+                        },
+                        (left, right) -> {
+                            left.addAll(right);
+                            return left;
+                        }));
     }
 
 
