@@ -20,12 +20,16 @@ public class ListsExample {
         ArrayList<Long> lista4 = new ArrayList<Long>();
 
         // wybierz by zobaczyć listę możliwych metod
-        // lista.
+        lista.size();
 
         // Zobacz że mamy dodatkowe metody do wykorzystania
-        LinkedList listaLinkowana = new LinkedList();
+        LinkedList<Long> listaLinkowana = new LinkedList();
+
+        listaLinkowana.addFirst(1L);
 
         // Stos jest jak lista ale ma inne metody
         Stack<Long> stos1 = new Stack<>();
+
+        stos1.push(1L);
     }
 }

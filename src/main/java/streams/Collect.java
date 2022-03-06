@@ -38,7 +38,10 @@ public class Collect {
         Map<Double, List<Student>> studentsByGrade = students.stream()
                 .collect(Collectors.groupingBy(Student::getGrade));
 
-        //ToDo print those students
+        studentsByGrade.entrySet().stream().forEach(e -> {
+            log.info(e.getKey());
+            e.getValue().stream().forEach(s -> log.info(s.getName() + " " + s.getSurname()));
+        });
     }
 
     public void groupStudentByGradeVs2() {
@@ -61,7 +64,10 @@ public class Collect {
         Map<Boolean, List<Student>> groups =
                 students.stream().collect(Collectors.partitioningBy(s -> s.getGrade() > 2));
 
-        //ToDo print those students
+        groups.entrySet().stream().forEach(e -> {
+            log.info(e.getKey());
+            e.getValue().stream().forEach(s -> log.info(s.getName() + " " + s.getSurname()));
+        });
     }
 
     public void mapHobbiesToStudents() {
@@ -80,7 +86,6 @@ public class Collect {
                             return left;
                         }));
     }
-
 
 
 }

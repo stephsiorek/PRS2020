@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class StreamsExample {
 
@@ -23,6 +24,6 @@ public class StreamsExample {
         IntStream.range(1, 10).forEach(num -> lista.add(num));
         lista.stream().forEach(num -> log.info(num));
 
-        //whatIsIt = lista.stream();
+        Stream<Integer> whatIsIt = lista.stream();
     }
 }

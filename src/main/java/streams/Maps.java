@@ -56,7 +56,11 @@ public class Maps {
 
     public void printListOfStudentsSurnamesInCapitalLetter() {
         log.info("Students that have first name and last name with different letter");
-        //ToDo
+        students.stream()
+                .map(student -> student.getName() + " " + student.getSurname())
+                .map(String::toUpperCase)
+                .forEach(s -> log.info(s));
+
     }
 
 }
