@@ -12,10 +12,10 @@ public class DebugExample {
 
         Long silnia = 1L;
 
-        for(int i = 1;i<15;i++ ) {
+        for(int i = 1;i<19;i++ ) {
             silnia = silnia * i;
         }
 
-        log.info("Silnia 15 : " + silnia);
+        log.info("Silnia 19 : " + silnia);
     }
 }
