@@ -16,12 +16,14 @@ public class Counter {
         Thread t1 = new Thread(() -> {
             IntStream.rangeClosed(1, 10000).forEach(num -> {
                 counter.increment();
+                logger.info(counter.getNumber());
             });
         });
 
         Thread t2 = new Thread(() -> {
             IntStream.rangeClosed(1, 10000).forEach(num -> {
                 counter.decrement();
+                logger.info(counter.getNumber());
             });
         });
 
@@ -45,15 +47,20 @@ class CounterThread {
     }
 
     public void increment() {
-        number++;
+        synchronized (this) {
+            number++;
+        }
     }
 
-
     public void decrement() {
-        number--;
+        synchronized (this) {
+            number--;
+        }
     }
 
     public Integer getNumber() {
-        return number;
+        synchronized (this) {
+            return number;
+        }
     }
 }

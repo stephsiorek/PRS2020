@@ -25,12 +25,22 @@ public class WaitNotify {
             }
         });
 
+        Thread t3 = new Thread(() -> {
+            try {
+                producer.consume();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
         t2.start();
         Thread.sleep(100);
         t1.start();
+        t3.start();
 
         t1.join();
         t2.join();
+        t3.join();
 
     }
 }
@@ -52,7 +62,7 @@ class ProducerConsumer {
     public void consume() throws InterruptedException {
         synchronized (this) {
             logger.info("Start consume");
-            wait();
+            wait(1000);
             logger.info("Finish consume");
         }
     }

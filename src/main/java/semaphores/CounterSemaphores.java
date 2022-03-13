@@ -9,7 +9,7 @@ public class CounterSemaphores {
 
     static Logger logger = Logger.getLogger(CounterSemaphores.class);
     static Integer number = 0;
-    static Semaphore semaphore = new Semaphore(0);
+    static Semaphore semaphore = new Semaphore(2);
 
     public static void main(String[] args) throws InterruptedException {
 
