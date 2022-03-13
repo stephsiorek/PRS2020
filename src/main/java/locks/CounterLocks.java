@@ -45,6 +45,7 @@ class CounterThreadLocks {
 
     public CounterThreadLocks(Integer number, ReentrantLock lock) {
         this.number = number;
+        this.lock = lock;
     }
 
     public void increment() {
