@@ -1,4 +1,4 @@
-package atomic;
+package synchronization;
 
 import org.apache.log4j.Logger;
 
