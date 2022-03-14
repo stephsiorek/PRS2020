@@ -57,7 +57,7 @@ public class WaitNotifyMultiprocess {
         IntStream.rangeClosed(1, 1000).forEach(num -> {
                 Random r = new Random();
                 try {
-                    Thread.sleep(r.nextInt() % 2000);
+                    Thread.sleep(Math.abs(r.nextInt()) % 2000);
                     producer.produce(r.nextInt());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
