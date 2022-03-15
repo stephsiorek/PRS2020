@@ -54,21 +54,21 @@ class ProducerConsumer {
     }
 
     public void produce() throws InterruptedException {
-        synchronized (this) {
+        lock.lock();
             logger.info("Start produce");
-            notify();
+            condition.signal();
             Thread.sleep(1000L);
             logger.info("Finish produce");
-        }
+        lock.unlock();
     }
 
 
     public void consume() throws InterruptedException {
-        synchronized (this) {
+        lock.lock();
             logger.info("Start consume");
-            wait();
+            condition.await();
             logger.info("Finish consume");
-        }
+        lock.unlock();
     }
 
 }
