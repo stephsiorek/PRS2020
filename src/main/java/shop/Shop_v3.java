@@ -47,33 +47,37 @@ public class Shop_v3 {
                     warehouse.put(item, warehouse.get(item) - 1);
                     logger.info("Purchase Accepted - Stock size " + stockSize + " SZKLANKI " + warehouse.get(Items.SZKLANKA));
                 } else {
-                    logger.info("Purchase Declined - no items in the store");
+                    getFromReturns(item, stockSize);
                 }
             } else {
                 logger.info("Purchase Accepted - Stock size " + stockSize);
                 warehouse.put(item, warehouse.get(item) - 1);
             }
         } else {
-            if(warehouseZwroty.get(item) > -stockSize) {
-                if (item.equals(Items.TALERZ)) {
-                    if (warehouseZwroty.get(Items.SZKLANKA) > -warehouse.get(Items.SZKLANKA)) {
-                        warehouse.put(Items.SZKLANKA, warehouse.get(Items.SZKLANKA) - 1);
-                        warehouse.put(item, warehouse.get(item) - 1);
-                        logger.info("Purchase from Returns ACCEPTED - Stock size " + stockSize + " SZKLANKI " + warehouse.get(Items.SZKLANKA));
-                    } else {
-                        logger.info("Purchase Declined - no items in the store");
-                    }
-                } else {
-                    warehouse.put(item, warehouse.get(item) - 1);
-                    logger.info("Purchase from Returns ACCEPTED - Stock size " +  warehouse.get(item));
-                }
-            }
-            logger.info("Purchase Declined - no items in the store");
+            getFromReturns(item, stockSize);
         }
         if (item.equals(Items.TALERZ)) {
             lock.get(Items.SZKLANKA.ordinal()).unlock();
         }
         lock.get(item.ordinal()).unlock();
+    }
+    private void getFromReturns(Items item, int stockSize) {
+        if(warehouseZwroty.get(item) > -stockSize) {
+            if (item.equals(Items.TALERZ)) {
+                if (warehouseZwroty.get(Items.SZKLANKA) > -warehouse.get(Items.SZKLANKA)) {
+                    warehouse.put(Items.SZKLANKA, warehouse.get(Items.SZKLANKA) - 1);
+                    warehouse.put(item, warehouse.get(item) - 1);
+                    logger.info("Purchase from Returns ACCEPTED - Stock size " + stockSize + " SZKLANKI " + warehouse.get(Items.SZKLANKA));
+                } else {
+                    logger.info("Purchase Declined - no items in the store");
+                }
+            } else {
+                warehouse.put(item, warehouse.get(item) - 1);
+                logger.info("Purchase from Returns ACCEPTED - Stock size " +  warehouse.get(item));
+            }
+        } else {
+            logger.info("Purchase Declined - no items in the store");
+        }
     }
 
     public void returns(Items item) {
