@@ -250,7 +250,7 @@ public class SequenceRunner {
         }
         if(SterowanieAkcja.ZAMKNIJ_SKLEP.equals(odpowiedz.getTyp())) {
             try {
-                ledger.evaluate(settings.getNumerIndeksu());
+                ledger.evaluateAll();
             } catch(AssertionError e) {
                 e.printStackTrace();
             }

@@ -1,7 +1,7 @@
 spring:
   redis:
     host: localhost
-    port: 8989
+    port: 6379
 
 ustawienia:
   numerIndeksu: 287046

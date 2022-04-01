@@ -18,4 +18,5 @@ public class Settings {
     private Long numerIndeksu;
     private Long liczbaZadan;
 
+
 }
