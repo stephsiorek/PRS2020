@@ -2,6 +2,7 @@ package tools;
 
 import tools.model.TimeAndId;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,42 +58,62 @@ class MyThread {
     String title;
     List<TimeAndId> timeList;
 
-    public MyThread(Phaser phaser, String title, List<TimeAndId> timeList)
-    {
+    public MyThread(Phaser phaser, String title, List<TimeAndId> timeList) {
         this.phaser = phaser;
         this.title = title;
         this.timeList = timeList;
 
-        phaser.register();
         new Thread(() -> {
+            phaser.register();
             System.out.println("Thread: " + title
                     + " Phase Zero Started");
-            phaser.arriveAndAwaitAdvance();
+            try {
+                Thread.sleep(new Random().nextInt() % 1000 + 2000);
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            }
+            timeList.add(TimeAndId.builder().time(Instant.now()).id(title).build());
+            if (timeList.size() > 2 && timeList.get(2).getId() == title) {
+                System.out.println("Thread: " + title
+                        + " Lost");
+                phaser.arriveAndDeregister();
+                return;
+            } else {
+                phaser.arriveAndAwaitAdvance();
+            }
 
             // Stop execution to prevent jumbled output
             try {
-                Thread.sleep(new Random().nextInt()%1000 + 2000);
-            }
-            catch (InterruptedException e) {
+                Thread.sleep(new Random().nextInt() % 1000 + 2000);
+            } catch (InterruptedException e) {
                 System.out.println(e);
             }
 
             System.out.println("Thread: " + title
                     + " Phase One Started");
-            phaser.arriveAndAwaitAdvance();
+            timeList.add(TimeAndId.builder().time(Instant.now()).id(title).build());
+            if (timeList.size() > 4 && timeList.get(4).getId() == title) {
+                System.out.println("Thread: " + title
+                        + " Lost");
+                phaser.arriveAndDeregister();
+                return;
+            } else {
+                phaser.arriveAndAwaitAdvance();
+            }
 
             // Stop execution to prevent jumbled output
             try {
-                Thread.sleep(new Random().nextInt()%1000 + 2000);
-            }
-            catch (InterruptedException e) {
+                Thread.sleep(new Random().nextInt() % 1000 + 2000);
+            } catch (InterruptedException e) {
                 System.out.println(e);
             }
 
             System.out.println("Thread: " + title
                     + " Phase Two Started");
             phaser.arriveAndDeregister();
-        }).start();
+        }).
+
+                start();
     }
 
 
