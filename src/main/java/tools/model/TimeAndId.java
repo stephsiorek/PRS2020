@@ -12,5 +12,5 @@ import java.time.Instant;
 public class TimeAndId {
 
     Instant time;
-    Integer id;
+    String id;
 }
