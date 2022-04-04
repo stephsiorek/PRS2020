@@ -15,14 +15,13 @@ public class BarrierZadanie {
 
     public static void main(String[] args) throws InterruptedException {
         CyclicBarrier barrier = new CyclicBarrier(3);
-        CyclicBarrier barrierStopOthers = new CyclicBarrier(3);
 
         ExecutorService service = Executors.newFixedThreadPool(3);
 
         IntStream.rangeClosed(1, 100).forEach(it -> {
             Random r = new Random();
             Task t = Math.abs(r.nextInt()) % 100 <= 90 ? Task.PROCESS : Task.SYNCHRONIZATION;
-            service.submit(new LoopTask(t, logger, barrier, barrierStopOthers));
+            service.submit(new LoopTask(t, logger, barrier));
         });
 
         service.shutdown();
@@ -38,14 +37,12 @@ class LoopTask implements Runnable {
     private Task loopTaskType;
 
     private CyclicBarrier barrier;
-    private CyclicBarrier stopOthers;
 
-    public LoopTask(Task loopTaskName, Logger logger, CyclicBarrier cyclicBarrier, CyclicBarrier stopOthers) {
+    public LoopTask(Task loopTaskName, Logger logger, CyclicBarrier cyclicBarrier) {
         super();
         this.loopTaskType = loopTaskName;
         this.logger = logger;
         this.barrier = cyclicBarrier;
-        this.stopOthers = stopOthers;
     }
 
     @Override
@@ -54,12 +51,12 @@ class LoopTask implements Runnable {
             if (loopTaskType.equals(Task.SYNCHRONIZATION)) {
                 barrier.await();
                 logger.info("Synchronization");
-                stopOthers.await();
+                barrier.await();
             }
             if (barrier.getNumberWaiting() > 0) {
                 logger.info("Stopped");
                 barrier.await();
-                stopOthers.await();
+                barrier.await();
                 logger.info("Started");
             }
             if (loopTaskType.equals(Task.PROCESS)) {
